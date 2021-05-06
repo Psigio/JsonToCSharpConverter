@@ -1,14 +1,31 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Formatting;
 using Newtonsoft.Json.Linq;
 
 namespace JsonToCSharpConverter
 {
     public class Converter
     {
-        public string ParseAndConvert(string inputJson)
-            => Convert(JObject.Parse(inputJson)) + ";";
+        public Task<string> ParseAndConvert(string inputJson)
+            => Task.Factory.StartNew<string>(() => Format($"var a = {Convert(JObject.Parse(inputJson))};"));
+
+        private string Format(string inputCode)
+        {
+            var tree = CSharpSyntaxTree.ParseText(inputCode);
+            using (var adhocWorkspace = new AdhocWorkspace())
+            {
+                var solutionInfo = Microsoft.CodeAnalysis.SolutionInfo.Create(SolutionId.CreateNewId(), VersionStamp.Default);
+                adhocWorkspace.AddSolution(solutionInfo);
+                var root = tree.GetCompilationUnitRoot();
+                var formatted = Formatter.Format(root, adhocWorkspace);
+                return formatted.ToString();
+            }
+        }
 
         private string Convert(JToken input)
         {

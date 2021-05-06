@@ -32,4 +32,4 @@ var a = new
 
 > Note: This is a work in progress, so is almost certainly buggy.  Use at your own risk!
 
-TODO - clean up code, unit tests, format C# output etc
+TODO - clean up code, unit tests, improve formatting of C# output etc

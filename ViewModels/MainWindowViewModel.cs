@@ -19,11 +19,11 @@ namespace JsonToCSharpConverter.ViewModels
             var converter = new Converter();
             _inputSubscription
                 = this.WhenAnyValue(x => x.InputValue)
-                    .Subscribe(x =>
+                    .Subscribe(async x =>
                     {
                         try
                         {
-                            OutputValue = converter.ParseAndConvert(x);
+                            OutputValue = await converter.ParseAndConvert(x);
                         }
                         catch (Exception ex)
                         {
