@@ -16,86 +16,20 @@ namespace JsonToCSharpConverter.ViewModels
 
         public MainWindowViewModel()
         {
+            var converter = new Converter();
             _inputSubscription
                 = this.WhenAnyValue(x => x.InputValue)
-                    .Subscribe(x => ParseAndConvert(x));
-        }
-
-        private void ParseAndConvert(string inputJson)
-        {
-            try
-            {
-                var jObject = JObject.Parse(inputJson);
-                OutputValue = Convert(jObject) + ";";
-            }
-            catch (Exception ex)
-            {
-                OutputValue = $"Not valid Json: {ex.Message}";
-            }
-        }
-
-        private string Convert(JToken input)
-        {
-            // Build string
-            var sb = new StringBuilder();
-            switch (input)
-            {
-                case JArray array:
+                    .Subscribe(x =>
                     {
-                        sb.AppendLine("new [] {");
-                        var values = array
-                            .Where(x => x != null)
-                            .Select(v => Convert(v));
-                        sb.AppendJoin($",{Environment.NewLine}", values);
-                        sb.Append("}");
-                    }
-                    break;
-                case JObject jObject:
-                    {
-                        sb.AppendLine("new {");
-                        var values = jObject
-                            .Properties()
-                            .Where(x => x != null)
-                            .Select(v => Convert(v));
-                        sb.AppendJoin($",{Environment.NewLine}", values);
-                        sb.Append("}");
-                    }
-                    break;
-                case JProperty jProperty:
-                    {
-                        var preamble = jProperty.Parent?.Type != JTokenType.Array
-                            ? $"{jProperty.Name} = "
-                            : "";
-                        sb.Append(preamble);
-                        sb.Append(Convert(jProperty.Value));
-                        break;
-                    }
-                case JValue jValue:
-                    {
-                        var rawValue = jValue.Value?.ToString();
-                        switch (jValue.Type)
+                        try
                         {
-                            case JTokenType.Object:
-                            case JTokenType.Array:
-                                sb.Append(Convert(jValue));
-                                break;
-                            case JTokenType.Float:
-                            case JTokenType.Integer:
-                                sb.Append(rawValue);
-                                break;
-                            case JTokenType.Boolean:
-                                sb.Append(rawValue.ToLowerInvariant());
-                                break;
-                            default:
-                                sb.Append($"\"{jValue.Value?.ToString()}\"");
-                                break;
+                            OutputValue = converter.ParseAndConvert(x);
                         }
-                    }
-                    break;
-                default:
-                    throw new InvalidOperationException($"JContainer type {input.GetType().FullName} was not expected");
-            }
-            return sb.ToString();
+                        catch (Exception ex)
+                        {
+                            OutputValue = $"Not valid Json: {ex.Message}";
+                        }
+                    });
         }
 
         public string InputValue
@@ -125,7 +59,6 @@ namespace JsonToCSharpConverter.ViewModels
 
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
