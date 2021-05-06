@@ -81,8 +81,10 @@ namespace JsonToCSharpConverter.ViewModels
                                 break;
                             case JTokenType.Float:
                             case JTokenType.Integer:
-                            case JTokenType.Boolean:
                                 sb.Append(rawValue);
+                                break;
+                            case JTokenType.Boolean:
+                                sb.Append(rawValue.ToLowerInvariant());
                                 break;
                             default:
                                 sb.Append($"\"{jValue.Value?.ToString()}\"");
