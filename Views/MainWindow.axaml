@@ -37,7 +37,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
     </Window.Styles>
     <Grid HorizontalAlignment="Stretch">

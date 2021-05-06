@@ -21,11 +21,7 @@ var a = new
     sub = new 
     {
         anotherKey = false,
-        others = new [] 
-        {
-            1,
-            2
-        }
+        others = new [] { 1, 2 }
     }
 };
 ```

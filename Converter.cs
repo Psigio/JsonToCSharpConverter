@@ -21,7 +21,7 @@ namespace JsonToCSharpConverter
             {
                 var solutionInfo = Microsoft.CodeAnalysis.SolutionInfo.Create(SolutionId.CreateNewId(), VersionStamp.Default);
                 adhocWorkspace.AddSolution(solutionInfo);
-                var root = tree.GetCompilationUnitRoot();
+                var root = tree.GetCompilationUnitRoot().NormalizeWhitespace(" ", true);
                 var formatted = Formatter.Format(root, adhocWorkspace);
                 return formatted.ToString();
             }
@@ -35,22 +35,22 @@ namespace JsonToCSharpConverter
             {
                 case JArray array:
                     {
-                        sb.AppendLine("new [] {");
+                        sb.Append("new [] {");
                         var values = array
                             .Where(x => x != null)
                             .Select(v => Convert(v));
-                        sb.AppendJoin($",{Environment.NewLine}", values);
+                        sb.AppendJoin(",", values);
                         sb.Append("}");
                     }
                     break;
                 case JObject jObject:
                     {
-                        sb.AppendLine("new {");
+                        sb.Append("new {");
                         var values = jObject
                             .Properties()
                             .Where(x => x != null)
                             .Select(v => Convert(v));
-                        sb.AppendJoin($",{Environment.NewLine}", values);
+                        sb.AppendJoin(",", values);
                         sb.Append("}");
                     }
                     break;
