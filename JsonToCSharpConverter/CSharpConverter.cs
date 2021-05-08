@@ -20,7 +20,7 @@ namespace JsonToCSharpConverter
                 // To get the formatting logic to work we need to create a full snippet first and adjust afterwards
                 var notNullVariableName = string.IsNullOrWhiteSpace(variableName)
                     ? "a"
-                    : variableName;
+                    : variableName.Trim();
                 var prefix = $"var {notNullVariableName} = ";
                 var unformatted = $"{prefix}{Convert(JObject.Parse(inputJson))};";
                 var formatted = Format(unformatted);

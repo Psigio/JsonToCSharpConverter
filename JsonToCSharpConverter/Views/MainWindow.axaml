@@ -54,8 +54,8 @@
                     <CheckBox IsChecked="{Binding GenerateFullSnippet}" Content="Full snippet"
                                   DockPanel.Dock="Left"/>
                     <DockPanel DockPanel.Dock="Left" LastChildFill="true" Margin="5,0,0,0">
-                        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">Variable Name</TextBlock>
-                        <TextBox DockPanel.Dock="Left" Text="{Binding VariableName}"/>
+                        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">Variable Name:</TextBlock>
+                        <TextBox DockPanel.Dock="Left" Text="{Binding VariableName}" Margin="5,0,0,0" MaxLength="16"/>
                     </DockPanel>                    
                 </DockPanel>
                 <TextBox DockPanel.Dock="Top" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding OutputValue}" />

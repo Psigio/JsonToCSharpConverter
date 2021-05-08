@@ -45,6 +45,75 @@ namespace JsonToCSharpConverter.Tests
             Assert.Equal(formattedInput, output);
         }
 
+
+        [Fact]
+        public async void Throws_Exception_On_Bad_Data()
+        {
+            var candidate = CreateCandidate();
+            await Assert.ThrowsAsync<JsonReaderException>(() => candidate.ParseAndConvert("{\"Not\" correct}"));
+        }
+
+        [Fact]
+        public async void Variable_Name_Works()
+        {
+            var candidate = CreateCandidate();
+            var input = "{\"a\":\"b\"}";
+            var expectedPreamble = $"var x =";
+            var output = await candidate.ParseAndConvert(input, true, "x");
+            Assert.StartsWith(expectedPreamble, output);
+        }
+
+        [Fact]
+        public async void Variable_Name_Defaults_If_Null()
+        {
+            var candidate = CreateCandidate();
+            var input = "{\"a\":\"b\"}";
+            var expectedPreamble = $"var a =";
+            var output = await candidate.ParseAndConvert(input, true, null);
+            Assert.StartsWith(expectedPreamble, output);
+        }
+
+        [Fact]
+        public async void Variable_Name_Defaults_If_Empty()
+        {
+            var candidate = CreateCandidate();
+            var input = "{\"a\":\"b\"}";
+            var expectedPreamble = $"var a =";
+            var output = await candidate.ParseAndConvert(input, true, string.Empty);
+            Assert.StartsWith(expectedPreamble, output);
+        }
+
+        [Fact]
+        public async void Variable_Name_Defaults_If_Only_Space_Provided()
+        {
+            var candidate = CreateCandidate();
+            var input = "{\"a\":\"b\"}";
+            var expectedPreamble = $"var a =";
+            var output = await candidate.ParseAndConvert(input, true, " ");
+            Assert.StartsWith(expectedPreamble, output);
+        }
+
+        [Fact]
+        public async void Variable_Name_Trims_Spaces()
+        {
+            var candidate = CreateCandidate();
+            var input = "{\"a\":\"b\"}";
+            var expectedPreamble = $"var x =";
+            var output = await candidate.ParseAndConvert(input, true, " x ");
+            Assert.StartsWith(expectedPreamble, output);
+        }
+
+        [Fact]
+        public async void Snippet_Flag_Works()
+        {
+            var candidate = CreateCandidate();
+            var input = "{\"a\":\"b\"}";
+            var unexpectedPreamble = $"var a =";
+            var output = await candidate.ParseAndConvert(input, false, "");
+            Assert.DoesNotContain(unexpectedPreamble, output);
+            Assert.DoesNotContain(";", output);
+        }
+
         private JObject PrepareInput(string input) => JObject.Parse(input);
 
         private CSharpConverter CreateCandidate() => new CSharpConverter();
