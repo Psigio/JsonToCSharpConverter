@@ -46,10 +46,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <HeaderedContentControl Grid.Column="0" Header="Json" Background="Black">
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Margin="5" Text="{Binding InputValue}"/>
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Margin="5" Text="{Binding InputValue}" />
         </HeaderedContentControl>
         <HeaderedContentControl Grid.Column="1"  Header="C#" Background="Black">
-            <TextBox IsReadOnly="True" TextWrapping="Wrap" Margin="5" Text="{Binding OutputValue}"/>
+            <TextBox IsReadOnly="True" TextWrapping="Wrap" Margin="5" Text="{Binding OutputValue}" />
         </HeaderedContentControl>
     </Grid>
 </Window>

@@ -16,7 +16,7 @@ namespace JsonToCSharpConverter.ViewModels
 
         public MainWindowViewModel()
         {
-            var converter = new Converter();
+            var converter = new CSharpConverter();
             _inputSubscription
                 = this.WhenAnyValue(x => x.InputValue)
                     .Subscribe(async x =>

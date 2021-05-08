@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonToCSharpConverter
 {
-    public class Converter
+    public class CSharpConverter
     {
         public Task<string> ParseAndConvert(string inputJson)
             => Task.Factory.StartNew<string>(() => Format($"var a = {Convert(JObject.Parse(inputJson))};"));
@@ -27,7 +27,7 @@ namespace JsonToCSharpConverter
             }
         }
 
-        private string Convert(JToken input)
+        internal string Convert(JToken input)
         {
             // Build string
             var sb = new StringBuilder();
