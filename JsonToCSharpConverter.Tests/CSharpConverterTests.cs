@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;

@@ -180,6 +180,10 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
+dotnet_naming_rule.field_members_style.severity = suggestion
+dotnet_naming_rule.field_members_style.symbols = field_members
+dotnet_naming_rule.field_members_style.style = field_style
+
 # Symbol specifications
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
@@ -194,6 +198,10 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers =
 
+dotnet_naming_symbols.field_members.applicable_kinds = field
+dotnet_naming_symbols.field_members.applicable_accessibilities = internal, private, private_protected
+dotnet_naming_symbols.field_members.required_modifiers =
+
 # Naming styles
 
 dotnet_naming_style.pascal_case.required_prefix =
@@ -205,3 +213,8 @@ dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.field_style.required_prefix = _
+dotnet_naming_style.field_style.required_suffix =
+dotnet_naming_style.field_style.word_separator =
+dotnet_naming_style.field_style.capitalization = camel_case
