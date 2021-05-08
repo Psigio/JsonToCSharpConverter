@@ -90,6 +90,5 @@ namespace JsonToCSharpConverter
             }
             return sb.ToString();
         }
-
     }
 }
