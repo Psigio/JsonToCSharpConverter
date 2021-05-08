@@ -12,7 +12,22 @@ namespace JsonToCSharpConverter
     public class CSharpConverter
     {
         public Task<string> ParseAndConvert(string inputJson)
-            => Task.Factory.StartNew<string>(() => Format($"var a = {Convert(JObject.Parse(inputJson))};"));
+            => ParseAndConvert(inputJson, true, "a");
+
+        public Task<string> ParseAndConvert(string inputJson, bool generateFullSnippet, string variableName)
+            => Task.Factory.StartNew<string>(() =>
+            {
+                // To get the formatting logic to work we need to create a full snippet first and adjust afterwards
+                var notNullVariableName = string.IsNullOrWhiteSpace(variableName)
+                    ? "a"
+                    : variableName;
+                var prefix = $"var {notNullVariableName} = ";
+                var unformatted = $"{prefix}{Convert(JObject.Parse(inputJson))};";
+                var formatted = Format(unformatted);
+                return generateFullSnippet
+                    ? formatted
+                    : formatted.Substring(prefix.Length).TrimEnd(';');
+            });
 
         private string Format(string inputCode)
         {

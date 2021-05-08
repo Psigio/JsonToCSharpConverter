@@ -49,7 +49,17 @@
             <TextBox AcceptsReturn="True" TextWrapping="Wrap" Margin="5" Text="{Binding InputValue}" />
         </HeaderedContentControl>
         <HeaderedContentControl Grid.Column="1"  Header="C#" Background="Black">
-            <TextBox IsReadOnly="True" TextWrapping="Wrap" Margin="5" Text="{Binding OutputValue}" />
+            <DockPanel LastChildFill="true" Margin="5">
+                <DockPanel LastChildFill="true" DockPanel.Dock="Bottom" Margin="0,5,0,0">
+                    <CheckBox IsChecked="{Binding GenerateFullSnippet}" Content="Full snippet"
+                                  DockPanel.Dock="Left"/>
+                    <DockPanel DockPanel.Dock="Left" LastChildFill="true" Margin="5,0,0,0">
+                        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">Variable Name</TextBlock>
+                        <TextBox DockPanel.Dock="Left" Text="{Binding VariableName}"/>
+                    </DockPanel>                    
+                </DockPanel>
+                <TextBox DockPanel.Dock="Top" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding OutputValue}" />
+            </DockPanel>            
         </HeaderedContentControl>
     </Grid>
 </Window>

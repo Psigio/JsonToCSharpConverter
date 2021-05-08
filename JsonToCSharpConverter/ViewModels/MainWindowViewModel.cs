@@ -9,17 +9,20 @@ namespace JsonToCSharpConverter.ViewModels
         private string _inputValue = "{\"Paste\": \"JSON Here\"}";
         private string _outputValue = "Result will appear here";
         private bool disposedValue;
+        private bool _generateFullSnippet = true;
+        private string _variableName = "a";
 
         public MainWindowViewModel()
         {
             var converter = new CSharpConverter();
             _inputSubscription
-                = this.WhenAnyValue(x => x.InputValue)
-                    .Subscribe(async x =>
+                = this.WhenAnyValue(x => x.InputValue, x => x.GenerateFullSnippet, x => x.VariableName)
+                    .Subscribe(async anon =>
                     {
                         try
                         {
-                            OutputValue = await converter.ParseAndConvert(x);
+                            var (inputValue, generateFullSnippet, variableName) = anon;
+                            OutputValue = await converter.ParseAndConvert(inputValue, generateFullSnippet, variableName);
                         }
                         catch (Exception ex)
                         {
@@ -38,6 +41,18 @@ namespace JsonToCSharpConverter.ViewModels
         {
             get => _outputValue;
             set => this.RaiseAndSetIfChanged(ref _outputValue, value);
+        }
+
+        public bool GenerateFullSnippet
+        {
+            get => _generateFullSnippet;
+            set => this.RaiseAndSetIfChanged(ref _generateFullSnippet, value);
+        }
+
+        public string VariableName
+        {
+            get => _variableName;
+            set => this.RaiseAndSetIfChanged(ref _variableName, value);
         }
 
         protected virtual void Dispose(bool disposing)
