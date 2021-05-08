@@ -1,5 +1,7 @@
 # JsonToCSharpConverter
 
+![default](https://github.com/psigio/JsonToCSharpConverter/actions/workflows/dotnet.yml/badge.svg)
+
 A simple .net-core [Avalonia UI](https://github.com/AvaloniaUI/Avalonia) application that allows you to convert a Json object, such as:
 
 ```
