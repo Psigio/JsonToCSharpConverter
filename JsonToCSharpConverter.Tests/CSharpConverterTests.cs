@@ -34,7 +34,7 @@ namespace JsonToCSharpConverter.Tests
         public async void Roundtrip_Works(string input)
         {
             var candidate = CreateCandidate();
-            var converted = await candidate.ParseAndConvert(input);
+            var converted = await candidate.ParseAndConvert(input, true, "a");
             // Use the Roslyn Scripting package to execute the output and return the generated output
             var script = $"{converted} return a;";
             var runtimeValue = await CSharpScript.EvaluateAsync(script, ScriptOptions.Default);
@@ -50,7 +50,7 @@ namespace JsonToCSharpConverter.Tests
         public async void Throws_Exception_On_Bad_Data()
         {
             var candidate = CreateCandidate();
-            await Assert.ThrowsAsync<JsonReaderException>(() => candidate.ParseAndConvert("{\"Not\" correct}"));
+            await Assert.ThrowsAsync<JsonReaderException>(() => candidate.ParseAndConvert("{\"Not\" correct}", true, "a"));
         }
 
         [Fact]

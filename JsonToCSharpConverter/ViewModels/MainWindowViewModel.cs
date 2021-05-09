@@ -1,4 +1,5 @@
 ﻿using System;
+using JsonToCSharpConverter.Abstracts;
 using ReactiveUI;
 
 namespace JsonToCSharpConverter.ViewModels
@@ -12,9 +13,8 @@ namespace JsonToCSharpConverter.ViewModels
         private bool _generateFullSnippet = true;
         private string _variableName = "a";
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(ICSharpConverter cSharpConverter)
         {
-            var converter = new CSharpConverter();
             _inputSubscription
                 = this.WhenAnyValue(x => x.InputValue, x => x.GenerateFullSnippet, x => x.VariableName)
                     .Subscribe(async anon =>
@@ -22,7 +22,7 @@ namespace JsonToCSharpConverter.ViewModels
                         try
                         {
                             var (inputValue, generateFullSnippet, variableName) = anon;
-                            OutputValue = await converter.ParseAndConvert(inputValue, generateFullSnippet, variableName);
+                            OutputValue = await cSharpConverter.ParseAndConvert(inputValue, generateFullSnippet, variableName);
                         }
                         catch (Exception ex)
                         {

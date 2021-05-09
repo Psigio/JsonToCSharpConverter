@@ -19,7 +19,8 @@ namespace JsonToCSharpConverter
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                _context = new MainWindowViewModel();
+                // TODO - Perhaps use Autofac or similar?
+                _context = new MainWindowViewModel(new CSharpConverter());
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = _context,

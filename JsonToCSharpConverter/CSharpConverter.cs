@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JsonToCSharpConverter.Abstracts;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
@@ -9,11 +10,8 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonToCSharpConverter
 {
-    public class CSharpConverter
+    public class CSharpConverter : ICSharpConverter
     {
-        public Task<string> ParseAndConvert(string inputJson)
-            => ParseAndConvert(inputJson, true, "a");
-
         public Task<string> ParseAndConvert(string inputJson, bool generateFullSnippet, string variableName)
             => Task.Factory.StartNew<string>(() =>
             {
