@@ -1,3 +1,4 @@
+using Autofac;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -17,10 +18,11 @@ namespace JsonToCSharpConverter
 
         public override void OnFrameworkInitializationCompleted()
         {
+            var container = AvaloniaLocator.Current.GetService<IContainer>();
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                // TODO - Perhaps use Autofac or similar?
-                _context = new MainWindowViewModel(new CSharpConverter());
+
+                _context = container.Resolve<MainWindowViewModel>();
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = _context,

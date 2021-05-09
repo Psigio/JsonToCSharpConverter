@@ -1,5 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
+using JsonToCSharpConverter.Extensions;
+using Autofac;
+using JsonToCSharpConverter.Abstracts;
+using JsonToCSharpConverter.ViewModels;
 
 namespace JsonToCSharpConverter
 {
@@ -16,6 +20,11 @@ namespace JsonToCSharpConverter
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .AddAutofacContainer(b =>
+                {
+                    b.RegisterType<CSharpConverter>().As<ICSharpConverter>().SingleInstance();
+                    b.RegisterType<MainWindowViewModel>();
+                });
     }
 }
