@@ -2,6 +2,7 @@ using Autofac;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using JsonToCSharpConverter.Extensions;
 using JsonToCSharpConverter.ViewModels;
 using JsonToCSharpConverter.Views;
 
@@ -9,8 +10,6 @@ namespace JsonToCSharpConverter
 {
     public class App : Application
     {
-        private MainWindowViewModel _context;
-
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -18,29 +17,17 @@ namespace JsonToCSharpConverter
 
         public override void OnFrameworkInitializationCompleted()
         {
-            var container = AvaloniaLocator.Current.GetService<IContainer>();
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-
-                _context = container.Resolve<MainWindowViewModel>();
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = _context,
+                    DataContext = AvaloniaLocator.Current
+                                    .GetAutofacContainer()
+                                    .Resolve<MainWindowViewModel>()
                 };
-                desktop.Exit += HandleExit;
             }
 
             base.OnFrameworkInitializationCompleted();
-        }
-
-        private void HandleExit(object sender, ControlledApplicationLifetimeExitEventArgs e)
-        {
-            _context?.Dispose();
-            var source = sender as IClassicDesktopStyleApplicationLifetime;
-            if (source != null)
-            {
-                source.Exit -= HandleExit;
-            }
         }
     }
 }
