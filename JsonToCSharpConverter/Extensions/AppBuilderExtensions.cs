@@ -8,12 +8,12 @@ namespace JsonToCSharpConverter.Extensions
     public static class AppBuilderExtensions
     {
         public static AppBuilder AddAutofacContainer(this AppBuilder appBuilder,
-            Action<ContainerBuilder> containerBuilderSetupAction)
+            Action<ContainerBuilder, Application> containerBuilderSetupAction)
             => appBuilder.AfterSetup(x =>
                 {
                     // Create ContainerBuilder and pass to setup action
                     var builder = new Autofac.ContainerBuilder();
-                    containerBuilderSetupAction(builder);
+                    containerBuilderSetupAction(builder, Application.Current);
                     var container = builder.Build();
                     // Store in the AvaloniaLocator
                     AvaloniaLocator.CurrentMutable.StoreAutofacContainer(container);

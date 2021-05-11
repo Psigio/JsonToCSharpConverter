@@ -1,3 +1,4 @@
+using Avalonia.Input.Platform;
 using JsonToCSharpConverter.Abstracts;
 using JsonToCSharpConverter.ViewModels;
 using Moq;
@@ -8,10 +9,12 @@ namespace JsonToCSharpConverter.Tests
     public class MainWindowViewModelTests
     {
         private Mock<ICSharpConverter> _mockCSharpConvert;
+        private Mock<IClipboard> _mockClipboard;
 
         public MainWindowViewModelTests()
         {
             _mockCSharpConvert = new Mock<ICSharpConverter>();
+            _mockClipboard = new Mock<IClipboard>();
         }
 
         [Fact]
@@ -65,6 +68,7 @@ namespace JsonToCSharpConverter.Tests
             _mockCSharpConvert.Verify(x => x.ParseAndConvert(It.IsAny<string>(), false, It.IsAny<string>()), Times.Never());
         }
 
-        private MainWindowViewModel CreateCandidate() => new MainWindowViewModel(_mockCSharpConvert.Object);
+        private MainWindowViewModel CreateCandidate()
+        => new MainWindowViewModel(_mockCSharpConvert.Object, _mockClipboard.Object);
     }
 }

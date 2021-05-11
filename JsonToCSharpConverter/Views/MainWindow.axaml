@@ -53,6 +53,7 @@
                 <DockPanel LastChildFill="true" DockPanel.Dock="Bottom" Margin="0,5,0,0">
                     <CheckBox IsChecked="{Binding GenerateFullSnippet}" Content="Full snippet"
                                   DockPanel.Dock="Left"/>
+                    <Button Content="Copy" Command="{Binding CopyCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/>        
                     <DockPanel DockPanel.Dock="Left" LastChildFill="true" Margin="5,0,0,0">
                         <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">Variable Name:</TextBlock>
                         <TextBox DockPanel.Dock="Left" Text="{Binding VariableName}" Margin="5,0,0,0" MaxLength="16"/>

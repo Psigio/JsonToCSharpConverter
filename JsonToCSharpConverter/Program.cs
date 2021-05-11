@@ -21,10 +21,11 @@ namespace JsonToCSharpConverter
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI()
-                .AddAutofacContainer(b =>
+                .AddAutofacContainer((b, app) =>
                 {
                     b.RegisterType<CSharpConverter>().As<ICSharpConverter>().SingleInstance();
                     b.RegisterType<MainWindowViewModel>();
+                    b.RegisterInstance(app.Clipboard);
                 });
     }
 }
